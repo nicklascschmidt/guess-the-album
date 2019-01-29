@@ -7,7 +7,7 @@ const ImageContainer = styled.div`
   height: ${props => props.height || '200px'};
   position: relative;
   overflow: hidden;
-  border-radius: 20%;
+  border-radius: 2%;
   margin: auto;
 `;
 

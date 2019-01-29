@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+require("./routes/html-routes")(app);
+require("./routes/scrape-routes")(app);
+
 // Static directory
 app.use('/static', express.static(path.join(__dirname, 'client/build/static'))); // production build directory
 app.use((req, res, next) => {
