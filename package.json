@@ -1,4 +1,10 @@
 {
+  "name": "guess-the-album",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/nicklascschmidt/guess-the-album.git",
+  "author": "Nicklas",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",

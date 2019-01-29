@@ -5,6 +5,7 @@ import Img from '../../components/img/Img';
 import ImgContainer from '../../components/img/ImgContainer';
 import { Container, Jumbotron, Row, Col, Button } from 'reactstrap';
 // import { , Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import QuestionForm from '../../components/questionForm/QuestionForm';
 
 
 class Main extends React.Component {
@@ -49,8 +50,7 @@ class Main extends React.Component {
   }
   
   wait = () => {
-    console.log('this.state',this.state)
-    console.log('testing')
+    console.log('this.state',this.state);
   }
 
 
@@ -72,6 +72,7 @@ class Main extends React.Component {
                 <Col sm='12' md='6'>
                   <CardComponent header={`Question ${this.state.count} of 5`}>
                     <p>What year was this album released?</p>
+                    <QuestionForm />
                   </CardComponent>
                 </Col>
               </Row>
