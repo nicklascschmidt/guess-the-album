@@ -22,29 +22,15 @@ class Main extends React.Component {
 
   scrapeRollingStone = () => {
     // start @ page 10 then decrement till 1
-    let queryObj = {
-      pageStart: 10
-    }
+    
     // axios.get(`https://www.rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/?list_page=10`)
-    axios.get(`/scrape/rollingStone`,{params: queryObj})
+    axios.get(`/scrape/rollingStone`)
       .then(res => {
         console.log('res',res)
         // const persons = res.data;
         // this.setState({ persons });
       })
-    // $.ajax({
-    //   url: '/scrape/imdb',
-    //   method: 'GET',
-    //   data: queryObj,
-    //   timeout: 1000 * 3,
-    //   error: (jqXHR, textStatus, errorThrown) => {
-    //     console.log('ajax error',textStatus, errorThrown);
-    //   },
-    //   success: data => {
-    //     let imdbArray = data;
-    //     displayMovies(imdbArray,'scrapeDisplay')
-    //   }
-    // })
+      .catch(err => console.log('err',err));
   }
 
   render() {
