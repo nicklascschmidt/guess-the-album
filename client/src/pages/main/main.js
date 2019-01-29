@@ -1,10 +1,10 @@
 import React from "react";
+import axios from 'axios';
 import CardComponent from '../../components/cards/Card';
 import Img from '../../components/img/Img';
 import ImgContainer from '../../components/img/ImgContainer';
-import { Container, Jumbotron, Row, Col } from 'reactstrap';
-import axios from 'axios';
-
+import { Container, Jumbotron, Row, Col, Button } from 'reactstrap';
+// import { , Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 
 class Main extends React.Component {
@@ -12,46 +12,69 @@ class Main extends React.Component {
       super(props);
 
       this.state = {
-
+        albumArray: null,
+        albumArrayIsLoaded: false,
+        gameIsStarted: false,
+        activeAlbum: null,
+        count: 0
       };
   }
 
-  componentDidMount() {
-    this.scrapeRollingStone();
+  componentDidMount = async () => {
+    await this.scrapeRollingStone();
+    console.log('this.state',this.state);
   }
 
   scrapeRollingStone = () => {
-    // start @ page 10 then decrement till 1
-    
-    // axios.get(`https://www.rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/?list_page=10`)
-    axios.get(`/scrape/rollingStone`)
+    return axios.get(`/scrape/rollingStone`)
       .then(res => {
-        console.log('res',res)
-        // const persons = res.data;
-        // this.setState({ persons });
+        if (res.status === 200) {
+          let albumArray = res.data;
+          this.setState({
+            albumArray: albumArray,
+            albumArrayIsLoaded: true
+          });
+        }
       })
       .catch(err => console.log('err',err));
   }
+
+  handleButtonStart = () => {
+    this.setState({
+      gameIsStarted: true,
+      activeAlbum: this.state.albumArray[this.state.count],
+      count: this.state.count + 1
+    })
+    setTimeout(this.wait, 2000);
+  }
+  
+  wait = () => {
+    console.log('this.state',this.state)
+  }
+
 
   render() {
     return (
       <div>
         <Jumbotron style={{backgroundColor: '#C9716B'}}>
           <Container>
-            <Row>
-              <Col sm='12' md='6'>
-                <ImgContainer width='300px' height='300px'>
-                  <Img src='https://www.rollingstone.com/wp-content/uploads/2018/06/rs-136815-cbb03ec26a73d7619600851e27bddf3511abf4de.jpg?crop=1240:1240&width=300' alt='Profile Picture' />
-                </ImgContainer>
-              </Col>
-              <Col sm='12' md='6'>
-                <CardComponent header='About'>
-                  <p>
-                    My name is Nicklas Chen Schmidt, and I’m a full stack developer seeking opportunities in the Bay Area. I’m passionate about building and improving web applications, as well as solving puzzles, learning new concepts, and translating ideas into real world applications.
-                  </p>
-                </CardComponent>
-              </Col>
-            </Row>
+            {!this.state.albumArrayIsLoaded ?
+            <h3>Loading...</h3> :
+              !this.state.gameIsStarted ?
+              <Button onClick={this.handleButtonStart}>Start</Button> :
+              <Row>
+                <Col sm='12' md='6'>
+                  <ImgContainer width='300px' height='300px'>
+                    <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
+                  </ImgContainer>
+                </Col>
+                <Col sm='12' md='6'>
+                  <CardComponent header={`Question ${this.state.count} of 5`}>
+                    <p>What year was this album released?</p>
+                  </CardComponent>
+                </Col>
+              </Row>
+            }
           </Container>
         </Jumbotron>
       </div>

@@ -9,10 +9,11 @@ import {
 
 const CardCustom = styled(Card)`
   margin: ${props => props.margin || '32px'};
+  border: none;
 `;
 
 const CardHeaderCustom = styled(CardHeader)`
-  background-color: #9E7D62;
+  background-color: darkred;
   color: white;
 `;
 
