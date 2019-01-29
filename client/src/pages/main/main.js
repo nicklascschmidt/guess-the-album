@@ -50,6 +50,7 @@ class Main extends React.Component {
   
   wait = () => {
     console.log('this.state',this.state)
+    console.log('testing')
   }
 
 
