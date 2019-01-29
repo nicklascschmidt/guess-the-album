@@ -23,7 +23,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <Background mycolor='green'>
+        <Background>
           <NavBar headerText='Guess The Album' toLink='/'/>
           <Container>
             <Switch>

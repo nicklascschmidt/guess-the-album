@@ -20,7 +20,6 @@ module.exports = function(app) {
       let albumArrayShort = [];
       for (let i = 0; i < 5; i++) {
         let randomNum = Math.floor(Math.random() * array.length);
-        // albumArrayShort.push(array[randomNum]);
         albumArrayShort.push(array[randomNum]);
       }
       return albumArrayShort

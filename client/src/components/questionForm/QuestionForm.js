@@ -29,11 +29,10 @@ class QuestionForm extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
-    // let { mailTo, emailName, emailDomain, submitterSubject, submitterMessage } = this.state;
+    this.props.mainHandleSubmit(this.state.formInputRange);
   }
 
-  handleSliderChange = (event) => {
+  handleSliderChange = event => {
     let { id, value } = event.target;
     this.setState({
       [id]: parseInt(value)
@@ -48,9 +47,12 @@ class QuestionForm extends React.Component {
           <Label for="formInputRange">Your Guess: {this.state.formInputRange}</Label>
           <input type='range' id="formInputRange" min={this.state.min} max={this.state.max} value={this.state.formInputRange} onChange={event => this.handleSliderChange(event)}/>
         </FormGroup>
-        <FormText color="muted">
+        <FormGroup>
+          <Button onClick={this.handleSubmit}>Guess!</Button>
+        </FormGroup>
+        {/* <FormText color="muted">
           *submit will open external default mail client
-        </FormText>
+        </FormText> */}
       </Form>
     );
   }
