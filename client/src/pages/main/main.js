@@ -140,10 +140,10 @@ class Main extends React.Component {
                   <h4 style={{margin:'0 0 20px 0'}}>What year was this album released?</h4>
                 </Col>
                 <Col sm='12' md='5' style={{textAlign:'center'}}>
-                  <h5>{this.state.activeAlbum.artist}: {this.state.activeAlbum.album}</h5>
                   <ImgContainer width='80%' height='auto'>
                     <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
                   </ImgContainer>
+                  <h5 style={{margin:'10px'}}>{this.state.activeAlbum.artist}: <em>{this.state.activeAlbum.album}</em></h5>
                 </Col>
                 <Col sm='12' md='7'>
                   <CardComponent header={`Question ${this.state.count} of 5`}>
