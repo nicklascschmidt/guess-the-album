@@ -10,13 +10,14 @@ class QuestionForm extends React.Component {
       this.state = {
         min: 1950,
         max: parseInt(moment().format('YYYY')),
-        formInputRange: 0,
+        rangeInputValue: 0,
+        sliderHasMoved: false,
       };
   }
 
   componentDidMount = () => {
     this.setState({
-      formInputRange: Math.round((this.state.max + this.state.min) / 2)
+      rangeInputValue: Math.round((this.state.max + this.state.min) / 2)
     });
   };
 
@@ -29,13 +30,18 @@ class QuestionForm extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.mainHandleSubmit(this.state.formInputRange);
+    this.props.mainHandleSubmit(this.state.rangeInputValue);
+    this.setState({
+      sliderHasMoved: false,
+      rangeInputValue: Math.round((this.state.max + this.state.min) / 2)
+    });
   }
 
   handleSliderChange = event => {
-    let { id, value } = event.target;
+    let { name, value } = event.target;
     this.setState({
-      [id]: parseInt(value)
+      [name]: parseInt(value),
+      sliderHasMoved: true,
     });
   }
 
@@ -44,8 +50,8 @@ class QuestionForm extends React.Component {
     return (
       <Form>
         <FormGroup>
-          <Label for="formInputRange">Your Guess: {this.state.formInputRange}</Label>
-          <input type='range' id="formInputRange" min={this.state.min} max={this.state.max} value={this.state.formInputRange} onChange={event => this.handleSliderChange(event)}/>
+          <Label for="formInputRange">{this.state.sliderHasMoved ? `Your Guess: ${this.state.rangeInputValue}` : `Drag the slider to adjust your guess`}</Label>
+          <input type='range' id="formInputRange" name='rangeInputValue' min={this.state.min} max={this.state.max} value={this.state.rangeInputValue} onChange={event => this.handleSliderChange(event)}/>
         </FormGroup>
         <FormGroup>
           <Button onClick={this.handleSubmit}>Guess!</Button>
