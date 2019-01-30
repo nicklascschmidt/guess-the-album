@@ -8,8 +8,10 @@ import {
 } from 'reactstrap';
 
 const CardCustom = styled(Card)`
-  margin: ${props => props.margin || '32px'};
+  margin: ${props => props.margin || '0'};
   border: none;
+  width: ${props => props.width || '100%'};
+  display: inline-block;
 `;
 
 const CardHeaderCustom = styled(CardHeader)`
@@ -19,16 +21,17 @@ const CardHeaderCustom = styled(CardHeader)`
 
 const CardBodyCustom = styled(CardBody)`
   color: #3F2113;
+  text-align: ${props => props.textAlign || 'center'};
 `;
 
 class CardComponent extends React.Component {
   render() {
     return (
-      <CardCustom>
+      <CardCustom width={this.props.width} margin={this.props.margin}>
         <CardHeaderCustom>
           <h5>{this.props.header}</h5>
         </CardHeaderCustom>
-        <CardBodyCustom>
+        <CardBodyCustom textAlign={this.props.textAlign}>
           {this.props.children}
         </CardBodyCustom>
       </CardCustom>
