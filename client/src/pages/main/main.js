@@ -107,7 +107,6 @@ class Main extends React.Component {
   }
 
   endGame = async () => {
-    console.log('END GAME');
     this.setState({
       gameIsEnded: true,
       
@@ -137,19 +136,18 @@ class Main extends React.Component {
               !this.state.gameIsStarted ?
               <Button onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start'}</Button> :
               <Row>
-                <Col sm='12' md='6' style={{textAlign:'center'}}>
+                <Col xs='12' sm='12' md='12' lg='12' xl='12'>
+                  <h4 style={{margin:'0 0 20px 0'}}>What year was this album released?</h4>
+                </Col>
+                <Col sm='12' md='5' style={{textAlign:'center'}}>
                   <h5>{this.state.activeAlbum.artist}: {this.state.activeAlbum.album}</h5>
-                  <ImgContainer width='300px' height='300px'>
+                  <ImgContainer width='80%' height='auto'>
                     <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
                   </ImgContainer>
                 </Col>
-                <Col sm='12' md='6'>
+                <Col sm='12' md='7'>
                   <CardComponent header={`Question ${this.state.count} of 5`}>
-                    {this.state.showSubmittedNotification ? <h5>Submitted! Moving to next question...</h5> : 
-                    <div>
-                      <p>What year was this album released?</p>
-                      <QuestionForm mainHandleSubmit={this.handleSubmit}/>
-                    </div>}
+                    {this.state.showSubmittedNotification ? <h5>Submitted! Moving to next question...</h5> : <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
                   </CardComponent>
                 </Col>
               </Row>

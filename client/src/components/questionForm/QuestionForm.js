@@ -1,7 +1,7 @@
 
 import React from "react";
 import moment from 'moment';
-import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, FormText, Row, Col } from 'reactstrap';
 
 class QuestionForm extends React.Component {
   constructor(props) {
@@ -66,11 +66,14 @@ class QuestionForm extends React.Component {
 
   render() {
     return (
-      <Form>
+      <Form style={{width:'100%'}}>
         <FormGroup>
-          {/* <Label for="formInputRange">{this.state.sliderHasMoved ? `Your Guess: ${this.state.rangeInputValue}` : `Drag the slider to adjust your guess`}</Label> */}
-          {this.state.sliderHasMoved ? <Label for="formInputRange">Your Guess: {this.state.rangeInputValue}</Label> : <FormText>Drag the slider to adjust your guess</FormText>}
-          <input type='range' id="formInputRange" name='rangeInputValue' min={this.state.min} max={this.state.max} value={this.state.rangeInputValue} onChange={event => this.handleSliderChange(event)}/>
+          {this.state.sliderHasMoved ? <p>Your Guess: {this.state.rangeInputValue}</p> : <FormText style={{display:'block'}}>Drag the slider to adjust your guess</FormText>}
+          <Row>
+            <Col style={{padding:'10px 0 0 0'}}><p>{this.state.min}</p></Col>            
+            <Col xs='8' sm='8' md='8' lg='8' xl='8' style={{padding:'0'}}><input type='range' id="formInputRange" name='rangeInputValue' min={this.state.min} max={this.state.max} value={this.state.rangeInputValue} onChange={event => this.handleSliderChange(event)} /></Col>
+            <Col style={{padding:'10px 0 0 0'}}><p>{this.state.max}</p></Col>
+          </Row>
         </FormGroup>
         <FormGroup>
           <Button onClick={this.handleSubmit}>Guess!</Button>
