@@ -82,6 +82,11 @@ class Main extends React.Component {
   }
 
   handleSubmit = yearInput => {
+    this.setState({ showSubmittedNotification: true })
+    setTimeout( () => this.guessSubmittedTimer(yearInput), 2000); // show notification for 2 seconds
+  }
+
+  guessSubmittedTimer = yearInput => {
     this.state.userGuessArray.push(yearInput);
     let updatedCount = this.state.count + 1;
     if (updatedCount <= 5) {
@@ -89,7 +94,10 @@ class Main extends React.Component {
     } else {
       this.endGame();
     }
+
+    this.setState({ showSubmittedNotification: false })
   }
+
 
   nextAlbum = (updatedCount) => {
     this.setState({
@@ -137,8 +145,11 @@ class Main extends React.Component {
                 </Col>
                 <Col sm='12' md='6'>
                   <CardComponent header={`Question ${this.state.count} of 5`}>
-                    <p>What year was this album released?</p>
-                    <QuestionForm mainHandleSubmit={this.handleSubmit}/>
+                    {this.state.showSubmittedNotification ? <h5>Submitted! Moving to next question...</h5> : 
+                    <div>
+                      <p>What year was this album released?</p>
+                      <QuestionForm mainHandleSubmit={this.handleSubmit}/>
+                    </div>}
                   </CardComponent>
                 </Col>
               </Row>
