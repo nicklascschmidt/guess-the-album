@@ -13,7 +13,8 @@ require("./routes/html-routes")(app);
 require("./routes/scrape-routes")(app);
 
 // Static directory
-app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
+// app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
