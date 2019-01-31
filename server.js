@@ -17,8 +17,8 @@ app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
-  app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
-  // app.use(express.static(path.join(__dirname, 'client/build')));
+  // app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
+  app.use(express.static(path.join(__dirname, 'client/build')));
 }
 
 app.listen(PORT, function() {
