@@ -4,45 +4,21 @@ import CardComponent from '../../components/cards/Card';
 import Img from '../../components/img/Img';
 import ImgContainer from '../../components/img/ImgContainer';
 import { Container, Jumbotron, Row, Col, Button } from 'reactstrap';
-// import { , Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import QuestionForm from '../../components/questionForm/QuestionForm';
 import ResultsDisplay from '../../components/resultsDisplay/resultsDisplay';
 import GameInfo from './gameInfo';
+import { testingAlbumArray } from './forTesting';
 
 class Main extends React.Component {
   constructor(props) {
       super(props);
 
       this.state = {
-        albumArray: [ // for testing
-          { album: 'Achtung Baby',
-            artist: 'U2',
-            year: 1991,
-            imgUrl:
-            'https://www.rollingstone.com/wp-content/uploads/2018/06/rs-136852-05c62e826eb9c0ef8fbf3e4e2d807a355efb0c94.jpg?crop=1240:1240&width=300' },
-          { album: 'The Bends',
-            artist: 'Radiohead',
-            year: 1995,
-            imgUrl:
-            'https://www.rollingstone.com/wp-content/uploads/2018/06/rs-136922-ade473553eca8fd0931d1267c4c5304e1b7b2b91.jpg?crop=1240:1240&width=300' },
-          { album: 'In Color',
-            artist: 'Cheap Trick',
-            year: 1977,
-            imgUrl:
-            'https://www.rollingstone.com/wp-content/uploads/2018/06/rs-cheap-trick-in-color-1ef4f243-d005-412e-810f-9cdad233af2a.jpg?crop=1240:1240&width=300' },
-          { album: 'The Best of Girl Groups Volumes 1 and 2',
-            artist: 'Various Artists',
-            year: 1990,
-            imgUrl:
-            'https://www.rollingstone.com/wp-content/uploads/2018/06/rs-136716-cbbaa618e1a73ecb8c1a8e4cfdaef83d56cdcb39.jpg?crop=1240:1240&width=300' },
-          { album: 'What’s Going On',
-            artist: 'Marvin Gaye',
-            year: 1971,
-            imgUrl:
-            'https://www.rollingstone.com/wp-content/uploads/2018/06/rs-136795-89f4e4079e43af44a80043f496eebfc562e3c9ec.jpg?crop=1240:1240&width=300' }
-        ],
+        albumArray: testingAlbumArray, // for testing
+        albumArrayIsLoaded: true, // for testing
+
         // albumArray: null,
-        albumArrayIsLoaded: false,
+        // albumArrayIsLoaded: false,
         showDirections: true,
         gameIsStarted: false,
         activeAlbum: null,
@@ -54,14 +30,11 @@ class Main extends React.Component {
   }
 
   componentDidMount = async () => {
-    await this.scrapeRollingStone();
+    // await this.scrapeRollingStone(); // comment out when testing
     console.log('this.state',this.state);
   }
 
   scrapeRollingStone = () => {
-    return this.setState({ // for testing
-      albumArrayIsLoaded: true
-    });
     return axios.get(`/scrape/rollingStone`)
       .then(res => {
         if (res.status === 200) {
@@ -86,7 +59,8 @@ class Main extends React.Component {
 
   handleSubmit = yearInput => {
     this.setState({ showSubmittedNotification: true })
-    setTimeout( () => this.guessSubmittedTimer(yearInput), 2000); // show notification for 2 seconds
+    // setTimeout( () => this.guessSubmittedTimer(yearInput), 2000); // show notification for 2 seconds
+    setTimeout( () => this.guessSubmittedTimer(yearInput), 100); // for testing
   }
 
   guessSubmittedTimer = yearInput => {
@@ -138,7 +112,7 @@ class Main extends React.Component {
             {!this.state.albumArrayIsLoaded ?
               <h3>Loading...</h3> :
               !this.state.gameIsStarted ?
-                <Button style={{margin:'auto'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button> :
+                <Button style={{margin:'20px auto'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button> :
                 <Row>
                   <Col xs='12' sm='12' md='12' lg='12' xl='12'>
                     <h4 style={{margin:'0 0 20px 0'}}>What year was this album released?</h4>

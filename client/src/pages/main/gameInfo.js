@@ -6,7 +6,7 @@ const GameInfo = () => {
       <div>
         <CardComponent header='About' width='30%' margin='10px' textAlign='left'>
           <p>This is a music trivia game that will test your knowledge of popular albums released during the latter half of the 20th century up until today.</p>
-          <p>Albums are pulled from the <a href='https://rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/' target='_blank'>Rolling Stone's Greatest 500 Albums List</a>.</p>
+          <p>Albums are pulled from the <a href='https://rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/' target='_blank' rel='noopener noreferrer'>Rolling Stone's Greatest 500 Albums List</a>.</p>
         </CardComponent>
         <CardComponent header='Instructions' width='30%' margin='10px' textAlign='left'>
           <ul>

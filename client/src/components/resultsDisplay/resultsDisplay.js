@@ -13,10 +13,7 @@ class ResultsDisplay extends React.Component {
   }
 
   componentDidMount() {
-    // console.log('mainState',this.props.mainState)
     let { albumArray, userGuessArray } = this.props.mainState;
-    console.log('albumArray',albumArray)
-    console.log('userGuessArray',userGuessArray)
     this.setState({
       albumArray,
       userGuessArray,
@@ -32,7 +29,7 @@ class ResultsDisplay extends React.Component {
 
   calculateTotalScore = () => {
     let totalScore = 0;
-    this.state.albumArray.map( (album, i) => {
+    this.state.albumArray.forEach( (album,i) => {
       let roundScore = this.calculateRoundScore(this.state.userGuessArray[i],album.year)
       totalScore = totalScore + roundScore;
     })
@@ -62,11 +59,11 @@ class ResultsDisplay extends React.Component {
   render() {
     return (
       <div style={{backgroundColor: '#D8A3A2', paddingTop: '10px', marginBottom: '20px', borderRadius: '5px'}}>
-        <h3>Your Score: {this.state.resultsAreReady ? this.calculateTotalScore() : null}</h3>
+        <h3>Score: {this.state.resultsAreReady ? this.calculateTotalScore() : null}</h3>
         <Table striped>
           <thead>
             <tr>
-              <th>#</th>
+              <th>Question #</th>
               <th>Album</th>
               <th>Your Guess</th>
               <th>Actual Year</th>
