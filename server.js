@@ -5,9 +5,6 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-require("./routes/html-routes")(app);
-require("./routes/scrape-routes")(app);
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -15,6 +12,13 @@ app.use(bodyParser.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, 'client/build')));
 }
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
+
+// require("./routes/html-routes")(app);
+require("./routes/scrape-routes")(app);
 
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
