@@ -13,20 +13,12 @@ require("./routes/html-routes")(app);
 require("./routes/scrape-routes")(app);
 
 // Static directory
-app.use('/static', express.static(path.join(__dirname, 'client/build/static'))); // production build directory
-app.use((req, res, next) => {
-	res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build')));
-
-  // Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
+  app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
+  // app.use(express.static(path.join(__dirname, 'client/build')));
 }
 
 app.listen(PORT, function() {
