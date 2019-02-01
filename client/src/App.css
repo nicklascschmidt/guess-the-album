@@ -21,6 +21,19 @@ h1, h2, h3, h4, h5, h6 {
   --color-purple-gray: #474044;
 }
 
+@media (min-width: 992px) {
+  .cardHeight {
+    height: 263px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .cardHeight {
+    height: 323px;
+  }
+}
+
+
 
 /* Input Range */
 input[type=range] {

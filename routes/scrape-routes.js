@@ -54,8 +54,11 @@ module.exports = function(app) {
                 albumObj.year = parseInt($(this).find('main.c-list__main').find('div.c-list__lead').find('p:first-of-type').text().trim().slice(-4));
                 albumObj.imgUrl = $(this).find('figure.c-list__picture').find('div.c-crop').find('img').attr('data-src');
   
-                // push to the array (passed into the func)
-                array.push(albumObj);
+                let year = isNaN(albumObj.year); // don't include faulty entries from Rolling Stone - some don't have year release date listed
+                if (!year) {
+                  // push to the array (passed into the func)
+                  array.push(albumObj);
+                }
               } else {
                 // advertisement, ignore
               }

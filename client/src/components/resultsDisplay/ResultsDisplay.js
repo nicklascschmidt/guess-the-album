@@ -51,7 +51,7 @@ class ResultsDisplay extends React.Component {
       return <FaRegSmileBeam />
     } else if (totalScore <= 30) {
       return <FaRegSmile />
-    } else if (totalScore <= 70) {
+    } else if (totalScore <= 60) {
       return <FaRegMeh />
     } else if (totalScore <= 100) {
       return <FaRegFrown />

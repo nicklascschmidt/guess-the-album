@@ -102,40 +102,38 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div>
-        <Jumbotron style={{backgroundColor:'var(--color-blue-gray)', paddingTop:'2rem', paddingBottom:'2rem'}}>
-          <Container style={{textAlign:'center'}}>
-            {this.state.showDirections ? <GameInfo /> : null}
-            {this.state.gameIsEnded ? <ResultsDisplay mainState={this.state} /> : null}
-            {!this.state.albumArrayIsLoaded ?
-              <h3>Loading...</h3> :
-              !this.state.gameIsStarted ?
-                <Button size='lg' style={{backgroundColor:'var(--color-dark-green)',margin:'20px auto'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button> :
-                <div>
-                  <Row style={{margin:'0 0 2rem 0'}}>
-                    <h4>What year was this album released?</h4>
-                    <hr width='100%' style={{border:'.5px solid white'}}></hr>
-                  </Row>
-                  <Row>
-                    <Col sm='12' md='5' style={{textAlign:'center'}}>
-                      <ImgContainer width='80%' height='auto'>
-                        <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
-                      </ImgContainer>
-                      <h4 style={{margin:'10px'}}><strong>{this.state.activeAlbum.artist}</strong>: <em>{this.state.activeAlbum.album}</em></h4>
-                    </Col>
-                    <Col sm='12' md='7'>
-                      <QuestionCardComponent count={this.state.count}>
-                        {this.state.showSubmittedNotification ? 
-                          <h5>{this.state.count < 5 ? `Submitted! Moving to next question...` : `Submitted! Showing results...`}</h5> :
-                          <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
-                      </QuestionCardComponent>
-                    </Col>
-                  </Row>
-                </div>
-            }
-          </Container>
-        </Jumbotron>
-      </div>
+      <Jumbotron style={{backgroundColor:'var(--color-blue-gray)', paddingTop:'2rem', paddingBottom:'2rem'}}>
+        <Container style={{textAlign:'center'}}>
+          {this.state.showDirections ? <GameInfo /> : null}
+          {this.state.gameIsEnded ? <ResultsDisplay mainState={this.state} /> : null}
+          <div style={{margin:'20px auto'}}>
+            {!this.state.albumArrayIsLoaded ? <h3>Loading...</h3> : null}
+            {this.state.albumArrayIsLoaded && !this.state.gameIsStarted ? <Button size='lg' style={{backgroundColor:'var(--color-dark-green)'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button> : null}
+            {this.state.gameIsStarted ? 
+              <div>
+                <Row style={{margin:'0 0 2rem 0'}}>
+                  <h4>What year was this album released?</h4>
+                  <hr width='100%' style={{border:'.5px solid white'}}></hr>
+                </Row>
+                <Row>
+                  <Col sm='12' md='5' style={{textAlign:'center'}}>
+                    <ImgContainer width='80%' height='auto'>
+                      <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
+                    </ImgContainer>
+                    <h4 style={{margin:'10px'}}><strong>{this.state.activeAlbum.artist}</strong>: <em>{this.state.activeAlbum.album}</em></h4>
+                  </Col>
+                  <Col sm='12' md='7'>
+                    <QuestionCardComponent count={this.state.count} classN='cardHeight'>
+                      {this.state.showSubmittedNotification ? 
+                        <h5>{this.state.count < 5 ? `Submitted! Moving to next question...` : `Submitted! Showing results...`}</h5> :
+                        <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
+                    </QuestionCardComponent>
+                  </Col>
+                </Row>
+              </div> : null}
+            </div>
+        </Container>
+      </Jumbotron>
     );
   }
 }

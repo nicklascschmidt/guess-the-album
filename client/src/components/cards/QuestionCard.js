@@ -19,7 +19,7 @@ const CardBodyCustom = styled(CardBody)`
 class QuestionCardComponent extends React.Component {
   render() {
     return (
-      <CardCustom width={this.props.width} margin={this.props.margin}>
+      <CardCustom className={this.props.classN} width={this.props.width} margin={this.props.margin}>
         <CardBodyCustom style={{postition:'relative'}}>
           <h5 style={{textAlign:'right', backgroundColor:'#58BC82', color: 'white', position:'absolute', right:'0', top:'0', padding:'10px', borderRadius:'0 4px 0 5px', overflow:'hidden'}}>{this.props.count} of 5</h5>
           {this.props.children}
