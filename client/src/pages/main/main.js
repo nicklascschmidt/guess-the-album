@@ -14,11 +14,11 @@ class Main extends React.Component {
       super(props);
 
       this.state = {
-        albumArray: testingAlbumArray, // for testing
-        albumArrayIsLoaded: true, // for testing
+        // albumArray: testingAlbumArray, // for testing
+        // albumArrayIsLoaded: true, // for testing
+        albumArray: null,
+        albumArrayIsLoaded: false,
 
-        // albumArray: null,
-        // albumArrayIsLoaded: false,
         showDirections: true,
         gameIsStarted: false,
         activeAlbum: null,
@@ -30,7 +30,7 @@ class Main extends React.Component {
   }
 
   componentDidMount = async () => {
-    // await this.scrapeRollingStone(); // comment out when testing
+    await this.scrapeRollingStone(); // comment out when testing
     console.log('this.state',this.state);
   }
 
@@ -59,8 +59,8 @@ class Main extends React.Component {
 
   handleSubmit = yearInput => {
     this.setState({ showSubmittedNotification: true })
-    // setTimeout( () => this.guessSubmittedTimer(yearInput), 2000); // show notification for 2 seconds
-    setTimeout( () => this.guessSubmittedTimer(yearInput), 100); // for testing
+    setTimeout( () => this.guessSubmittedTimer(yearInput), 2000); // show notification for 2 seconds
+    // setTimeout( () => this.guessSubmittedTimer(yearInput), 100); // for testing
   }
 
   guessSubmittedTimer = yearInput => {
@@ -74,7 +74,6 @@ class Main extends React.Component {
 
     this.setState({ showSubmittedNotification: false })
   }
-
 
   nextAlbum = (updatedCount) => {
     this.setState({
@@ -127,7 +126,9 @@ class Main extends React.Component {
                     </Col>
                     <Col sm='12' md='7'>
                       <QuestionCardComponent count={this.state.count}>
-                        {this.state.showSubmittedNotification ? <h5>Submitted! Moving to next question...</h5> : <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
+                        {this.state.showSubmittedNotification ? 
+                          <h5>{this.state.count < 5 ? `Submitted! Moving to next question...` : `Submitted! Showing results...`}</h5> :
+                          <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
                       </QuestionCardComponent>
                     </Col>
                   </Row>

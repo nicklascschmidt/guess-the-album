@@ -16,7 +16,6 @@ const CardBodyCustom = styled(CardBody)`
   position:'relative';
 `;
 
-
 class QuestionCardComponent extends React.Component {
   render() {
     return (

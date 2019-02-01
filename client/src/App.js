@@ -24,7 +24,7 @@ class App extends React.Component {
     return (
       <Router>
         <Background>
-          <NavBar headerText='Guess The Album' toLink='/'/>
+          <NavBar headerText='Guess the Album' toLink='/'/>
           <Container>
             <Switch>
               <Route exact path="/" component={Main} />
