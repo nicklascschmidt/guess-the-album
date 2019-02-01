@@ -6,7 +6,7 @@ import { Container, Jumbotron, Row, Col, Button } from 'reactstrap';
 import QuestionForm from '../../components/questionForm/QuestionForm';
 import ResultsDisplay from '../../components/resultsDisplay/ResultsDisplay';
 import GameInfo from './gameInfo';
-import { testingAlbumArray } from './forTesting';
+// import { testingAlbumArray } from './forTesting';
 import QuestionCardComponent from '../../components/cards/QuestionCard';
 
 class Main extends React.Component {
