@@ -2,7 +2,7 @@ import React from "react";
 import styled from 'styled-components';
 
 const ImageContainer = styled.div`
-  border: 2px solid darkred;
+  border: 1px solid var(--color-dark-purple);
   width: ${props => props.width || '200px'};
   height: ${props => props.height || '200px'};
   position: relative;

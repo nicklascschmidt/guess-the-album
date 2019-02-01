@@ -2,6 +2,16 @@ import React from 'react';
 import Img from '../img/Img';
 import ImgContainer from '../img/ImgContainer';
 import { Table } from 'reactstrap';
+import styled from 'styled-components';
+
+const ScoreCustom = styled.h3`
+  margin: 0 auto 20px auto;
+  border: 5px solid var(--color-dark-green);
+  border-radius: 10px;
+  background-color: var(--color-dark-purple);
+  padding: 10px;
+  width: fit-content;
+`;
 
 class ResultsDisplay extends React.Component {
   constructor(props) {
@@ -41,15 +51,15 @@ class ResultsDisplay extends React.Component {
       let roundScore = this.calculateRoundScore(this.state.userGuessArray[i],album.year)
       return (
         <tr key={i}>
-          <th scope="row">{i + 1}</th>
-          <td>
+          {/* <th scope="row">{i + 1}</th> */}
+          <td style={{verticalAlign:'middle'}}>
             <ImgContainer width='100px' height='100px'>
               <Img src={album.imgUrl} alt='Album Picture' />
             </ImgContainer>
           </td>
-          <td>{this.state.userGuessArray[i]}</td>
-          <td>{album.year}</td>
-          <td>{roundScore}</td>
+          <td style={{verticalAlign:'middle'}}>{this.state.userGuessArray[i]}</td>
+          <td style={{verticalAlign:'middle'}}>{album.year}</td>
+          <td style={{verticalAlign:'middle'}}>{roundScore}</td>
         </tr>
       )
     })
@@ -58,12 +68,12 @@ class ResultsDisplay extends React.Component {
   
   render() {
     return (
-      <div style={{backgroundColor: '#D8A3A2', paddingTop: '10px', marginBottom: '20px', borderRadius: '5px'}}>
-        <h3>Score: {this.state.resultsAreReady ? this.calculateTotalScore() : null}</h3>
-        <Table striped>
+      <div style={{textAlign:'center'}}>
+        <ScoreCustom>Score: <strong>{this.state.resultsAreReady ? this.calculateTotalScore() : null}</strong></ScoreCustom>
+        <Table striped style={{backgroundColor: 'var(--color-purple-gray)', paddingTop: '10px', marginBottom: '20px', borderRadius: '5px'}}>
           <thead>
             <tr>
-              <th>Question #</th>
+              {/* <th>Question #</th> */}
               <th>Album</th>
               <th>Your Guess</th>
               <th>Actual Year</th>

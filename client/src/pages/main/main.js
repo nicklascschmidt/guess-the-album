@@ -1,13 +1,13 @@
 import React from "react";
 import axios from 'axios';
-import CardComponent from '../../components/cards/Card';
 import Img from '../../components/img/Img';
 import ImgContainer from '../../components/img/ImgContainer';
 import { Container, Jumbotron, Row, Col, Button } from 'reactstrap';
 import QuestionForm from '../../components/questionForm/QuestionForm';
-import ResultsDisplay from '../../components/resultsDisplay/resultsDisplay';
+import ResultsDisplay from '../../components/resultsDisplay/ResultsDisplay';
 import GameInfo from './gameInfo';
 import { testingAlbumArray } from './forTesting';
+import QuestionCardComponent from '../../components/cards/QuestionCard';
 
 class Main extends React.Component {
   constructor(props) {
@@ -105,30 +105,33 @@ class Main extends React.Component {
   render() {
     return (
       <div>
-        <Jumbotron style={{backgroundColor: '#C9716B'}}>
+        <Jumbotron style={{backgroundColor:'var(--color-blue-gray)', paddingTop:'2rem', paddingBottom:'2rem'}}>
           <Container style={{textAlign:'center'}}>
             {this.state.showDirections ? <GameInfo /> : null}
             {this.state.gameIsEnded ? <ResultsDisplay mainState={this.state} /> : null}
             {!this.state.albumArrayIsLoaded ?
               <h3>Loading...</h3> :
               !this.state.gameIsStarted ?
-                <Button style={{margin:'20px auto'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button> :
-                <Row>
-                  <Col xs='12' sm='12' md='12' lg='12' xl='12'>
-                    <h4 style={{margin:'0 0 20px 0'}}>What year was this album released?</h4>
-                  </Col>
-                  <Col sm='12' md='5' style={{textAlign:'center'}}>
-                    <ImgContainer width='80%' height='auto'>
-                      <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
-                    </ImgContainer>
-                    <h5 style={{margin:'10px'}}>{this.state.activeAlbum.artist}: <em>{this.state.activeAlbum.album}</em></h5>
-                  </Col>
-                  <Col sm='12' md='7'>
-                    <CardComponent header={`Question ${this.state.count} of 5`}>
-                      {this.state.showSubmittedNotification ? <h5>Submitted! Moving to next question...</h5> : <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
-                    </CardComponent>
-                  </Col>
-                </Row>
+                <Button size='lg' style={{backgroundColor:'var(--color-dark-green)',margin:'20px auto'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button> :
+                <div>
+                  <Row style={{margin:'0 0 2rem 0'}}>
+                    <h4>What year was this album released?</h4>
+                    <hr width='100%' style={{border:'.5px solid white'}}></hr>
+                  </Row>
+                  <Row>
+                    <Col sm='12' md='5' style={{textAlign:'center'}}>
+                      <ImgContainer width='80%' height='auto'>
+                        <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
+                      </ImgContainer>
+                      <h4 style={{margin:'10px'}}><strong>{this.state.activeAlbum.artist}</strong>: <em>{this.state.activeAlbum.album}</em></h4>
+                    </Col>
+                    <Col sm='12' md='7'>
+                      <QuestionCardComponent count={this.state.count}>
+                        {this.state.showSubmittedNotification ? <h5>Submitted! Moving to next question...</h5> : <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
+                      </QuestionCardComponent>
+                    </Col>
+                  </Row>
+                </div>
             }
           </Container>
         </Jumbotron>

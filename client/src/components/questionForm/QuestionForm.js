@@ -67,8 +67,8 @@ class QuestionForm extends React.Component {
   render() {
     return (
       <Form style={{width:'100%'}}>
-        <FormGroup>
-          <div>{this.state.sliderHasMoved ? <span>Your Guess: {this.state.rangeInputValue}</span> : <FormText>Drag the slider to adjust your guess</FormText>}</div>
+        <FormGroup style={{marginTop:'10px'}}>
+          <div style={{padding:'10px'}}>{this.state.sliderHasMoved ? <span>Your Guess: <strong>{this.state.rangeInputValue}</strong></span> : <FormText>Drag the slider to adjust your guess</FormText>}</div>
           <Row>
             <Col style={{padding:'10px 0 0 0'}}><p>{this.state.min}</p></Col>            
             <Col xs='8' sm='8' md='8' lg='8' xl='8' style={{padding:'0'}}><input type='range' id="formInputRange" name='rangeInputValue' min={this.state.min} max={this.state.max} value={this.state.rangeInputValue} onChange={event => this.handleSliderChange(event)} /></Col>
@@ -76,7 +76,7 @@ class QuestionForm extends React.Component {
           </Row>
         </FormGroup>
         <FormGroup>
-          <Button onClick={this.handleSubmit}>Guess!</Button>
+          <Button size='lg' style={{backgroundColor:'var(--color-dark-green)', border:'none'}} onClick={this.handleSubmit}>Guess!</Button>
         </FormGroup>
         {this.state.error.isError ? <p style={{color:'red'}}>{this.state.error.errorMsg}</p> : null}
       </Form>
