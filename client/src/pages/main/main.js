@@ -6,8 +6,8 @@ import { Container, Jumbotron, Row, Col, Button } from 'reactstrap';
 import QuestionForm from '../../components/questionForm/QuestionForm';
 import ResultsDisplay from '../../components/resultsDisplay/ResultsDisplay';
 import GameInfo from './gameInfo';
-// import { testingAlbumArray } from './forTesting';
 import QuestionCardComponent from '../../components/cards/QuestionCard';
+// import { testingAlbumArray } from './forTesting';
 
 class Main extends React.Component {
   constructor(props) {
@@ -31,7 +31,6 @@ class Main extends React.Component {
 
   componentDidMount = async () => {
     await this.scrapeRollingStone(); // comment out when testing
-    console.log('this.state',this.state);
   }
 
   scrapeRollingStone = () => {
@@ -59,8 +58,8 @@ class Main extends React.Component {
 
   handleSubmit = yearInput => {
     this.setState({ showSubmittedNotification: true })
-    setTimeout( () => this.guessSubmittedTimer(yearInput), 2000); // show notification for 2 seconds
-    // setTimeout( () => this.guessSubmittedTimer(yearInput), 100); // for testing
+    setTimeout( () => this.guessSubmittedTimer(yearInput), 1500); // show notification for 2 seconds
+    // setTimeout( () => this.guessSubmittedTimer(yearInput), 10); // for testing
   }
 
   guessSubmittedTimer = yearInput => {
