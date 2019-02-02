@@ -30,15 +30,15 @@ class ResultsDisplay extends React.Component {
     this.setState({ totalScore, emoji, albumArray, userGuessArray, resultsAreReady: true });
   }
 
-  calculateRoundScore = (yearInput, yearActual) => {
-    let yearDiff = Math.abs(yearInput - yearActual);
+  calculateRoundScore = (yearInput, yearActual, isAbs) => {
+    let yearDiff = isAbs ? Math.abs(yearInput - yearActual) : yearInput - yearActual;
     return yearDiff
   }
 
   calculateTotalScore = (albumArray,userGuessArray) => {
     let totalScore = 0;
     albumArray.forEach( (album,i) => {
-      let roundScore = this.calculateRoundScore(userGuessArray[i],album.year)
+      let roundScore = this.calculateRoundScore(userGuessArray[i],album.year,true);
       totalScore = totalScore + roundScore;
     })
     return totalScore
@@ -64,7 +64,8 @@ class ResultsDisplay extends React.Component {
 
   showTableContents = (albumArray,userGuessArray) => {
     let rows = albumArray.map( (album, i) => {
-      let roundScore = this.calculateRoundScore(userGuessArray[i],album.year)
+      let roundScore = this.calculateRoundScore(userGuessArray[i],album.year,false);
+      let roundScoreSign = (roundScore === 0) ? roundScore : (roundScore > 0) ? `+${roundScore}` : `${roundScore}`;
       return (
         <tr key={i}>
           <td style={{verticalAlign:'middle'}}>
@@ -74,7 +75,7 @@ class ResultsDisplay extends React.Component {
           </td>
           <td style={{verticalAlign:'middle'}}>{userGuessArray[i]}</td>
           <td style={{verticalAlign:'middle'}}>{album.year}</td>
-          <td style={{verticalAlign:'middle'}}>{roundScore}</td>
+          <td style={{verticalAlign:'middle'}}>{roundScoreSign}</td>
         </tr>
       )
     })
