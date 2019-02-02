@@ -16,11 +16,20 @@ module.exports = function(app) {
 
 
     function getRandomAlbum(array) {
+      // get 5 unique random #'s
+      let randomNumArray = [];
+      while (randomNumArray.length < 5) {
+        let randomNum = Math.floor(Math.random() * array.length);
+        if (randomNumArray.indexOf(randomNum) === -1) {
+          randomNumArray.push(randomNum);
+        }
+      }
+
       // get 5 random albums out of the 500 pulled from RS.com
       let albumArrayShort = [];
       for (let i = 0; i < 5; i++) {
-        let randomNum = Math.floor(Math.random() * array.length);
-        albumArrayShort.push(array[randomNum]);
+        let randomNumLoop = randomNumArray[i]
+        albumArrayShort.push(array[randomNumLoop]);
       }
       return albumArrayShort
     }
