@@ -4,11 +4,24 @@ const cheerio = require('cheerio');
 module.exports = function(app) {
 
   app.get('/scrape/rollingStone', async function(req, res) {
-    let startIndex = 10;
     let albumArray = [];
-    for (let i = startIndex; i > 0; i--) {
-      albumArray = await getRollingStoneAlbums(albumArray,`https://www.rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/?list_page=${i}`);
-      // console.log('albumArray',albumArray.length); // test to confirm #
+
+    console.log('req.query',req.query);
+    await chooseTheArticle(req.query.type);
+    
+    async function chooseTheArticle(type) {
+      if (type === '500AllTime') {
+        let startIndex = 10;
+        for (let i = startIndex; i > 0; i--) {
+          albumArray = await getRollingStoneAlbums(albumArray,`https://www.rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/?list_page=${i}`);
+          // console.log('albumArray',albumArray.length); // test to confirm #
+        }
+      } else if (type === '50Best2018') {
+        albumArray = await getRollingStoneAlbums(albumArray,`https://www.rollingstone.com/music/music-lists/50-best-albums-2018-764071/`);
+      } else {
+        console.log('wrong params');
+      }
+
     }
     
     let albumArrayShort = getRandomAlbum(albumArray);

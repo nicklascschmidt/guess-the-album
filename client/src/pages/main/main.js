@@ -34,7 +34,7 @@ class Main extends React.Component {
   }
 
   scrapeRollingStone = () => {
-    return axios.get(`/scrape/rollingStone`)
+    return axios.get(`/scrape/rollingStone`, { params: {type: '500AllTime'} })
       .then(res => {
         if (res.status === 200) {
           let albumArray = res.data;
