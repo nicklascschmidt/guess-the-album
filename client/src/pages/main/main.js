@@ -93,7 +93,7 @@ class Main extends React.Component {
       playAgainButton: true,
     })
 
-    await this.scrapeRollingStone();
+    await this.scrapeRollingStone('500AllTime');
 
     // reset user answers after submitting
     this.setState({
