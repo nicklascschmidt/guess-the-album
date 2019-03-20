@@ -30,11 +30,12 @@ class Main extends React.Component {
   }
 
   componentDidMount = async () => {
-    await this.scrapeRollingStone(); // comment out when testing
+    await this.scrapeRollingStone('500AllTime'); // comment out when testing
   }
 
-  scrapeRollingStone = () => {
-    return axios.get(`/scrape/rollingStone`, { params: {type: '500AllTime'} })
+  scrapeRollingStone = (type) => {
+    console.log(type)
+    return axios.get(`/scrape/rollingStone/${type}`)
       .then(res => {
         if (res.status === 200) {
           let albumArray = res.data;

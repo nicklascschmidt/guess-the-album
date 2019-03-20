@@ -3,92 +3,100 @@ const cheerio = require('cheerio');
 
 module.exports = function(app) {
 
-  app.get('/scrape/rollingStone', async function(req, res) {
+  app.get('/scrape/rollingStone/:type', async function(req, res) {
+    
+    // Type is whichever category the user clicks to scrape.
+    // pageNum is the page number (10 pages of 50 records each, 500 albums total).
+    // numAlbums is how many albums you want (i.e. # of questions in the quiz).
+    let type = req.params.type;
+    let scrapeLink = '';
+    let baseScrapeLink = '';
+    let pageNum = 0;
+    let numOfAlbums = 5;
+    let randomNumberArray = [];
     let albumArray = [];
 
-    console.log('req.query',req.query);
-    await chooseTheArticle(req.query.type);
-    
-    async function chooseTheArticle(type) {
-      if (type === '500AllTime') {
-        let startIndex = 10;
-        for (let i = startIndex; i > 0; i--) {
-          albumArray = await getRollingStoneAlbums(albumArray,`https://www.rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/?list_page=${i}`);
-          // console.log('albumArray',albumArray.length); // test to confirm #
+    if (type === '500AllTime') {
+      // Set the base link. Get array of 5 random #s.
+      baseScrapeLink = 'https://www.rollingstone.com/music/music-lists/500-greatest-albums-of-all-time-156826/?list_page=';
+      randomNumberArray = chooseRandomNumbers(numOfAlbums,500);
+      
+      // Loop the rando # array and get the album info for each.
+      // Page # is what page the album is listed on RS.com (1 of 10).
+      for (num of randomNumberArray) {
+        pageNum = calculatePageNum(num);
+        scrapeLink = baseScrapeLink + pageNum;
+        await fetchAlbum(scrapeLink,num,albumArray);
+      }
+
+      // Send the array back to the client.
+      res.send(albumArray);
+
+    } else if (type === '50Best2018') {
+      // nothing yet
+      scrapeLink = `https://www.rollingstone.com/music/music-lists/50-best-albums-2018-764071/`;
+    } else {
+      console.log('err: wrong params');
+    }
+
+    // If req successful, get album info from RS.com via Cheerio web scrape
+    function fetchAlbum(link,id,album) {
+      return axios.get(link).then( (response) => {
+        if (response.status === 200) {
+          let $ = cheerio.load(response.data);
+          $(`article#list-item-${id}`).each(function(i, element) {
+            // Make object and add keys to it.
+            let albumObj = { id };
+            
+            // Get artist and album names (can only be extracted as one text string), then year and img URL.
+            let artistAndAlbum = $(this).attr('data-list-title');
+
+            // Typos: no starting quote for the album, no comma deliminator.
+            // Irregs: some bands have commas in them (e.g. Earth, Wind, and Fire), quotes within album/artist name.
+            // If there's a beginning quote (right before the album name), then that's the first index. Else, it's the position of the comma+1.
+            let indexQuote = artistAndAlbum.indexOf('\‘');
+            let indexComma = artistAndAlbum.indexOf('\,');
+            let firstAlbumIndex = (indexQuote !== -1) ? indexQuote+1 : indexComma+1;
+            let lastAlbumIndex = artistAndAlbum.length-1;
+            albumObj.album = artistAndAlbum.substring(firstAlbumIndex,lastAlbumIndex).trim();
+
+            // Pull the artist name out by only going up to the first character when the album starts. Subtract 1 (the quote), then trim spaces.
+            // Then if the last char is a comma (which it should be if no typo), then slice it off the end.
+            let artist = artistAndAlbum.substring(0,firstAlbumIndex-1).trim();
+            let lastCharIsComma = (artist.charAt(artist.length-1) === ',') ? true : false ;
+            albumObj.artist = lastCharIsComma ? artist.slice(0,-1) : artist;
+
+            // Year and imgUrl are already good to go from the source code.
+            albumObj.year = parseInt($(this).find('main.c-list__main').find('div.c-list__lead').find('p:first-of-type').text().trim().slice(-4));
+            albumObj.imgUrl = $(this).find('figure.c-list__picture').find('div.c-crop').find('img').attr('data-src');
+            
+            return album.push(albumObj);
+          });
+        } else {
+          // handle error
+          console.log('OOPS: error caught');
+          res.send('error');
         }
-      } else if (type === '50Best2018') {
-        albumArray = await getRollingStoneAlbums(albumArray,`https://www.rollingstone.com/music/music-lists/50-best-albums-2018-764071/`);
-      } else {
-        console.log('wrong params');
-      }
-
+      })
+      .catch(err => console.log('err',err));
     }
-    
-    let albumArrayShort = getRandomAlbum(albumArray);
-    res.send(albumArrayShort); // send final array of 5 album objs to client
 
+    // Calculate what page the item # is on. Ex. item # 451 is on page 1, #450 on page 2.
+    function calculatePageNum(num) {
+      return 10 - Math.floor((num - 1) / 50);
+    }
 
-    function getRandomAlbum(array) {
-      // get 5 unique random #'s
-      let randomNumArray = [];
-      while (randomNumArray.length < 5) {
-        let randomNum = Math.floor(Math.random() * array.length);
-        if (randomNumArray.indexOf(randomNum) === -1) {
-          randomNumArray.push(randomNum);
+    // Builds array of unique random numbers. numAlbums is how many 
+    function chooseRandomNumbers(numAlbums,limit) {
+      let array = [];
+      while (array.length < numAlbums) {
+        let randomNumber = Math.floor(Math.random() * limit) + 1;
+        if (array.indexOf(randomNumber) === -1) {
+          array.push(randomNumber);
         }
       }
-
-      // get 5 random albums out of the 500 pulled from RS.com
-      let albumArrayShort = [];
-      for (let i = 0; i < 5; i++) {
-        let randomNumLoop = randomNumArray[i]
-        albumArrayShort.push(array[randomNumLoop]);
-      }
-      return albumArrayShort
+      return array;
     }
 
-    function getRollingStoneAlbums(array,link) {
-      return axios.get(link)
-        .then(function(response) {
-          if (response.status === 200) {
-            let $ = cheerio.load(response.data);
-            $("article.c-list__item").each(function(i, element) {
-  
-              // only get articles, not ads
-              let hasId = $(this).attr('id');
-              if (hasId) {
-                // make obj and add keys to it
-                let albumObj = {};
-  
-                // get artist and album names, then year and img URL
-                let artistAndAlbum = $(this).find('header.c-list__header').find('h3.c-list__title').text().trim();
-                
-                let indexComma = artistAndAlbum.indexOf('\,');
-                let indexApostrophe = artistAndAlbum.indexOf(`‘`);
-                let indexCommaAdjustedStart = (indexComma >= 0) ? indexComma + 3 : indexApostrophe + 1; // Exodus by Bob Marley has a typo on RS.com
-                let indexEnd = artistAndAlbum.length - 1;
-
-                let indexCommaAdjustedEnd = (indexComma >= 0) ? indexComma : indexApostrophe - 2; // same
-
-                albumObj.album = artistAndAlbum.substring(indexCommaAdjustedStart,indexEnd);
-                albumObj.artist = artistAndAlbum.substring(0,indexCommaAdjustedEnd);
-                
-                albumObj.year = parseInt($(this).find('main.c-list__main').find('div.c-list__lead').find('p:first-of-type').text().trim().slice(-4));
-                albumObj.imgUrl = $(this).find('figure.c-list__picture').find('div.c-crop').find('img').attr('data-src');
-  
-                let year = isNaN(albumObj.year); // don't include faulty entries from Rolling Stone - some don't have year release date listed
-                if (!year) {
-                  // push to the array (passed into the func)
-                  array.push(albumObj);
-                }
-              } else {
-                // advertisement, ignore
-              }
-            })
-            return array
-          }
-        })
-        .catch(err => console.log('err',err));
-    }
   });
 };
