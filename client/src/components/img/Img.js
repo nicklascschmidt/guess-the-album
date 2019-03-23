@@ -10,7 +10,7 @@ const ImgCustom = styled.img`
 class Img extends React.Component {  
   render() {
     return (
-      <ImgCustom src={this.props.src} alt={this.props.alt}></ImgCustom>
+      <ImgCustom src={this.props.src} alt={this.props.alt} />
     );
   }
 }

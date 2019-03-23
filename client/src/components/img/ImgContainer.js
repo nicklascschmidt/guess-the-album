@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const ImageContainer = styled.div`
   border: 1px solid var(--color-dark-purple);
-  width: ${props => props.width || '200px'};
-  height: ${props => props.height || '200px'};
+  width: ${props => props.width || '20rem'};
+  height: ${props => props.height || '20rem'};
   position: relative;
   overflow: hidden;
   border-radius: 2%;
