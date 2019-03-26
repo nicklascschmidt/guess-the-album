@@ -9,15 +9,9 @@ import NotFound from './pages/notFound';
 import NavBar from './components/nav/NavBar';
 import Background from './components/background/Background';
 
-// css
+// style
 import './App.css';
 import { Container } from 'reactstrap';
-
-// font awesome
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faIgloo, faChair } from '@fortawesome/free-solid-svg-icons';
-
-library.add(faIgloo,faChair);
 
 class App extends React.Component {
   render() {

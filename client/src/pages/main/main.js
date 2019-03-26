@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import GameComponent from '../../components/game/Game';
-import { Container, Jumbotron, Button } from 'reactstrap';
+import { Jumbotron, Button } from 'reactstrap';
 import ResultsDisplay from '../../components/resultsDisplay/ResultsDisplay';
 import GameInfo from './gameInfo';
 
@@ -47,7 +47,7 @@ class Main extends React.Component {
     });
   }
 
-  endGameMain = async (userGuessArray) => {
+  endGame = async (userGuessArray) => {
     this.setState({
       gameIsEnded: true,
       
@@ -67,13 +67,13 @@ class Main extends React.Component {
     let startButton = <Button size='lg' style={{backgroundColor:'var(--color-dark-green)', margin:'1rem'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button>;
     
     return (
-      <Jumbotron style={{backgroundColor:'var(--color-blue-gray)', paddingTop:'2rem', paddingBottom:'2rem', textAlign:'center'}}>
-        <Container style={{margin:'2rem auto'}}>
-          {directions}
-          {results}
+      <Jumbotron style={{backgroundColor:'var(--color-blue-gray)', paddingTop:'2rem', paddingBottom:'2rem'}}>
+        {directions}
+        {results}
+        <div style={{textAlign:'center'}}>
           {(this.state.albumArrayIsLoaded && !this.state.gameIsStarted) ? startButton : loadingText}
-          {this.state.gameIsStarted ? <GameComponent albumArray={this.state.albumArray} endGameMain={this.endGameMain} /> : null}
-        </Container>
+          {this.state.gameIsStarted ? <GameComponent albumArray={this.state.albumArray} endGame={this.endGame} /> : null}
+        </div>
       </Jumbotron>
     );
   }

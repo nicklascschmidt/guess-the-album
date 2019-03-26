@@ -67,7 +67,7 @@ class QuestionForm extends React.Component {
   render() {
     return (
       <Form style={{width:'100%'}}>
-        <FormGroup style={{marginTop:'10px'}}>
+        <FormGroup>
           <div style={{padding:'10px'}}>{this.state.sliderHasMoved ? <span>Your Guess: <strong>{this.state.rangeInputValue}</strong></span> : <FormText>Drag the slider to adjust your guess</FormText>}</div>
           <Row>
             <Col style={{padding:'10px 0 0 0'}}><p>{this.state.min}</p></Col>            
