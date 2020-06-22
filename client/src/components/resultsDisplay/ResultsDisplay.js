@@ -5,6 +5,10 @@ import { Table } from 'reactstrap';
 import styled from 'styled-components';
 import { FaRegGrinStars, FaRegSmileBeam, FaRegSmile, FaRegMeh, FaRegFrown, FaRegDizzy } from "react-icons/fa";
 
+const Container = styled.div`
+  text-align: center;
+`;
+
 const ScoreCustom = styled.h3`
   margin: 0 auto 20px auto;
   border: 5px solid var(--color-dark-green);
@@ -12,6 +16,14 @@ const ScoreCustom = styled.h3`
   background-color: var(--color-dark-purple);
   padding: 20px;
   width: fit-content;
+`;
+
+const StyledTable = styled(Table)`
+  background-color: var(--color-purple-gray);
+  color: white;
+  padding-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
 `;
 
 class ResultsDisplay extends React.Component {
@@ -24,21 +36,21 @@ class ResultsDisplay extends React.Component {
   }
 
   componentDidMount() {
-    let { albumArray, userGuessArray } = this.props.mainState;
-    let totalScore = this.calculateTotalScore(albumArray,userGuessArray);
-    let emoji = this.showEmoji(totalScore);
+    const { albumArray, userGuessArray } = this.props.mainState;
+    const totalScore = this.calculateTotalScore(albumArray,userGuessArray);
+    const emoji = this.showEmoji(totalScore);
     this.setState({ totalScore, emoji, albumArray, userGuessArray, resultsAreReady: true });
   }
 
   calculateRoundScore = (yearInput, yearActual, isAbs) => {
-    let yearDiff = isAbs ? Math.abs(yearInput - yearActual) : yearInput - yearActual;
+    const yearDiff = isAbs ? Math.abs(yearInput - yearActual) : yearInput - yearActual;
     return yearDiff
   }
 
   calculateTotalScore = (albumArray,userGuessArray) => {
     let totalScore = 0;
     albumArray.forEach( (album,i) => {
-      let roundScore = this.calculateRoundScore(userGuessArray[i],album.year,true);
+      const roundScore = this.calculateRoundScore(userGuessArray[i],album.year,true);
       totalScore = totalScore + roundScore;
     })
     return totalScore
@@ -63,9 +75,9 @@ class ResultsDisplay extends React.Component {
   }
 
   showTableContents = (albumArray,userGuessArray) => {
-    let rows = albumArray.map( (album, i) => {
-      let roundScore = this.calculateRoundScore(userGuessArray[i],album.year,false);
-      let roundScoreSign = (roundScore === 0) ? roundScore : (roundScore > 0) ? `+${roundScore}` : `${roundScore}`;
+    const rows = albumArray.map( (album, i) => {
+      const roundScore = this.calculateRoundScore(userGuessArray[i],album.year,false);
+      const roundScoreSign = (roundScore === 0) ? roundScore : (roundScore > 0) ? `+${roundScore}` : `${roundScore}`;
       return (
         <tr key={i}>
           <td style={{verticalAlign:'middle'}}>
@@ -84,9 +96,9 @@ class ResultsDisplay extends React.Component {
   
   render() {
     return (
-      <div style={{textAlign:'center'}}>
+      <Container>
         <ScoreCustom>Score: <strong>{this.state.totalScore}</strong> {this.state.emoji}</ScoreCustom>
-        <Table striped style={{backgroundColor: 'var(--color-purple-gray)', paddingTop: '10px', marginBottom: '20px', borderRadius: '5px'}}>
+        <StyledTable striped>
           <thead>
             <tr>
               <th>Album</th>
@@ -96,8 +108,8 @@ class ResultsDisplay extends React.Component {
             </tr>
           </thead>
           {this.state.resultsAreReady ? this.showTableContents(this.state.albumArray,this.state.userGuessArray) : null}
-        </Table>
-      </div>
+        </StyledTable>
+      </Container>
     )
   }
 }
