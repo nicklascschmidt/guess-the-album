@@ -26,7 +26,7 @@ class QuestionForm extends React.Component {
   };
 
   handleChange = event => {
-    let { name, value } = event.target;
+    const { name, value } = event.target;
     this.setState({
       [name]: value
     });
@@ -52,7 +52,7 @@ class QuestionForm extends React.Component {
   }
 
   handleSliderChange = event => {
-    let { name, value } = event.target;
+    const { name, value } = event.target;
     this.setState({
       [name]: parseInt(value),
       sliderHasMoved: true,

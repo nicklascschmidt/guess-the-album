@@ -8,11 +8,11 @@ module.exports = function(app) {
     // Type is whichever category the user clicks to scrape.
     // pageNum is the page number (10 pages of 50 records each, 500 albums total).
     // numAlbums is how many albums you want (i.e. # of questions in the quiz).
-    let type = req.params.type;
+    const type = req.params.type;
     let scrapeLink = '';
     let baseScrapeLink = '';
     let pageNum = 0;
-    let numOfAlbums = 5;
+    const numOfAlbums = 5;
     let randomNumberArray = [];
     let albumArray = [];
 
@@ -43,27 +43,27 @@ module.exports = function(app) {
     function fetchAlbum(link,id,album) {
       return axios.get(link).then( (response) => {
         if (response.status === 200) {
-          let $ = cheerio.load(response.data);
+          const $ = cheerio.load(response.data);
           $(`article#list-item-${id}`).each(function(i, element) {
             // Make object and add keys to it.
             let albumObj = { id };
             
             // Get artist and album names (can only be extracted as one text string), then year and img URL.
-            let artistAndAlbum = $(this).attr('data-list-title');
+            const artistAndAlbum = $(this).attr('data-list-title');
 
             // Typos: no starting quote for the album, no comma deliminator.
             // Irregs: some bands have commas in them (e.g. Earth, Wind, and Fire), quotes within album/artist name.
             // If there's a beginning quote (right before the album name), then that's the first index. Else, it's the position of the comma+1.
-            let indexQuote = artistAndAlbum.indexOf('\‘');
-            let indexComma = artistAndAlbum.indexOf('\,');
-            let firstAlbumIndex = (indexQuote !== -1) ? indexQuote+1 : indexComma+1;
-            let lastAlbumIndex = artistAndAlbum.length-1;
+            const indexQuote = artistAndAlbum.indexOf('\‘');
+            const indexComma = artistAndAlbum.indexOf('\,');
+            const firstAlbumIndex = (indexQuote !== -1) ? indexQuote+1 : indexComma+1;
+            const lastAlbumIndex = artistAndAlbum.length-1;
             albumObj.album = artistAndAlbum.substring(firstAlbumIndex,lastAlbumIndex).trim();
 
             // Pull the artist name out by only going up to the first character when the album starts. Subtract 1 (the quote), then trim spaces.
             // Then if the last char is a comma (which it should be if no typo), then slice it off the end.
-            let artist = artistAndAlbum.substring(0,firstAlbumIndex-1).trim();
-            let lastCharIsComma = (artist.charAt(artist.length-1) === ',') ? true : false ;
+            const artist = artistAndAlbum.substring(0,firstAlbumIndex-1).trim();
+            const lastCharIsComma = (artist.charAt(artist.length-1) === ',') ? true : false ;
             albumObj.artist = lastCharIsComma ? artist.slice(0,-1) : artist;
 
             // Year and imgUrl are already good to go from the source code.

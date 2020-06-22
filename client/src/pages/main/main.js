@@ -29,7 +29,7 @@ class Main extends React.Component {
     return axios.get(`/scrape/rollingStone/${type}`)
       .then(res => {
         if (res.status === 200) {
-          let albumArray = res.data;
+          const albumArray = res.data;
           this.setState({
             albumArray: albumArray,
             albumArrayIsLoaded: true
@@ -61,10 +61,10 @@ class Main extends React.Component {
   }
 
   render() {
-    let directions = this.state.showDirections ? <GameInfo /> : null;
-    let results = this.state.gameIsEnded ? <ResultsDisplay mainState={this.state} /> : null;
-    let loadingText = !this.state.albumArrayIsLoaded ? <h4>Loading...</h4> : null;
-    let startButton = <Button size='lg' style={{backgroundColor:'var(--color-dark-green)', margin:'1rem'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button>;
+    const directions = this.state.showDirections ? <GameInfo /> : null;
+    const results = this.state.gameIsEnded ? <ResultsDisplay mainState={this.state} /> : null;
+    const loadingText = !this.state.albumArrayIsLoaded ? <h4>Loading...</h4> : null;
+    const startButton = <Button size='lg' style={{backgroundColor:'var(--color-dark-green)', margin:'1rem'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button>;
     
     return (
       <Jumbotron style={{backgroundColor:'var(--color-blue-gray)', paddingTop:'2rem', paddingBottom:'2rem'}}>
