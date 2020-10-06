@@ -1,9 +1,16 @@
 import React from "react";
+import styled from 'styled-components';
 import axios from 'axios';
 import GameComponent from '../../components/game/Game';
 import { Jumbotron, Button } from 'reactstrap';
 import ResultsDisplay from '../../components/resultsDisplay/ResultsDisplay';
 import GameInfo from './gameInfo';
+
+export const StyledJumbotron = styled(Jumbotron)`
+  background-color: var(--color-blue-gray);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+`;
 
 class Main extends React.Component {
   constructor(props) {
@@ -67,14 +74,14 @@ class Main extends React.Component {
     const startButton = <Button size='lg' style={{backgroundColor:'var(--color-dark-green)', margin:'1rem'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button>;
     
     return (
-      <Jumbotron style={{backgroundColor:'var(--color-blue-gray)', paddingTop:'2rem', paddingBottom:'2rem'}}>
+      <StyledJumbotron>
         {directions}
         {results}
         <div style={{textAlign:'center'}}>
           {(this.state.albumArrayIsLoaded && !this.state.gameIsStarted) ? startButton : loadingText}
           {this.state.gameIsStarted ? <GameComponent albumArray={this.state.albumArray} endGame={this.endGame} /> : null}
         </div>
-      </Jumbotron>
+      </StyledJumbotron>
     );
   }
 }
