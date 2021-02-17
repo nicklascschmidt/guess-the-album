@@ -9,9 +9,9 @@ const Container = styled.div`
   text-align: center;
 `;
 
-const ScoreCustom = styled.h3`
+const Score = styled.h3`
   margin: 0 auto 20px auto;
-  border: 5px solid var(--color-dark-green);
+  border: 2px solid var(--color-dark-green);
   border-radius: 10px;
   background-color: var(--color-dark-purple);
   padding: 20px;
@@ -97,7 +97,7 @@ class ResultsDisplay extends React.Component {
   render() {
     return (
       <Container>
-        <ScoreCustom>Score: <strong>{this.state.totalScore}</strong> {this.state.emoji}</ScoreCustom>
+        <Score>Score: <strong>{this.state.totalScore}</strong> {this.state.emoji}</Score>
         <StyledTable striped>
           <thead>
             <tr>

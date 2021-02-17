@@ -43,11 +43,12 @@ export class GameComponent extends Component {
         count: count+1,
       });
     } else {
-      this.props.endGame(this.state.userGuessArray);
+      this.props.handleEndGame(this.state.userGuessArray);
     }
   }
 
   render() {
+    const { activeAlbum, count, showSubmittedNotification } = this.state;
     return (
       <div>
         <h4>What year was this album released?</h4>
@@ -55,14 +56,14 @@ export class GameComponent extends Component {
         <Row>
           <Col sm='12' md='5' style={{textAlign:'center'}}>
             <ImgContainer width='80%' height='auto'>
-              <Img src={this.state.activeAlbum.imgUrl} alt='Album Picture' />
+              <Img src={activeAlbum.imgUrl} alt='Album Picture' />
             </ImgContainer>
-            <h4 style={{margin:'1rem'}}><strong>{this.state.activeAlbum.artist}</strong>: <em>{this.state.activeAlbum.album}</em></h4>
+            <h4 style={{margin:'1rem'}}><strong>{activeAlbum.artist}</strong>{`: `}<em>{activeAlbum.album}</em></h4>
           </Col>
           <Col sm='12' md='7'>
-            <QuestionCardComponent count={this.state.count}>
-              {this.state.showSubmittedNotification ? 
-                <h5>{this.state.count < 5 ? `Submitted! Moving to next question...` : `Submitted! Showing results...`}</h5> :
+            <QuestionCardComponent count={count}>
+              {showSubmittedNotification ? 
+                <h5>{count < 5 ? `Submitted! Moving to next question...` : `Submitted! Showing results...`}</h5> :
                 <QuestionForm mainHandleSubmit={this.handleSubmit}/>}
             </QuestionCardComponent>
           </Col>

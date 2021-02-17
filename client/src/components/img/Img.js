@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 
-const ImgCustom = styled.img`
+const StyledImage = styled.img`
   margin: auto;
   width: 100%;
   height: auto;
@@ -9,8 +9,9 @@ const ImgCustom = styled.img`
 
 class Img extends React.Component {  
   render() {
+    const { src, alt } = this.props;
     return (
-      <ImgCustom src={this.props.src} alt={this.props.alt} />
+      <StyledImage src={src} alt={alt} />
     );
   }
 }
