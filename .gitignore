@@ -1,1 +1,6 @@
 node_modules/
+.env
+/data/rollingStoneNetwork.data.js
+/data/rollingStoneHtml.data.js
+/routes/scrape-routes_UNSA.js
+/routes/scrape-routes_localHtml.js
