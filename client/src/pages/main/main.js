@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import GameComponent from '../../components/game/Game';
@@ -18,68 +18,83 @@ class Main extends React.Component {
 
     this.state = {
       albumArray: null,
-      albumArrayIsLoaded: false,
+      areAlbumsLoaded: false,
 
       showDirections: true,
-      gameIsStarted: false,
-      gameIsEnded: false,
+      isGameStarted: false,
+      isGameEnded: false,
       userGuessArray: [],
       playAgainButton: false,
     };
   }
 
   componentDidMount = async () => {
-    await this.scrapeRollingStone('500AllTime');
-  }
+    await this.scrapeRollingStone();
+  };
 
-  scrapeRollingStone = (type) => {
-    return axios.get(`/scrape/rollingStone/${type}`)
-      .then(res => {
+  scrapeRollingStone = () => {
+    return axios
+      .get(`/scrape/rollingStone`)
+      .then((res) => {
         if (res.status === 200) {
           const albumArray = res.data;
           this.setState({
-            albumArray: albumArray,
-            albumArrayIsLoaded: true
+            albumArray,
+            areAlbumsLoaded: true,
           });
         }
       })
-      .catch(err => console.log('err',err));
-  }
+      .catch((err) => console.log('err', err));
+  };
 
   handleButtonStart = () => {
     this.setState({
       showDirections: false,
-      gameIsStarted: true,
-      gameIsEnded: false
+      isGameStarted: true,
+      isGameEnded: false,
     });
-  }
+  };
 
-  endGame = async (userGuessArray) => {
+  handleEndGame = async (userGuessArray) => {
     this.setState({
-      gameIsEnded: true,
-      
+      isGameEnded: true,
+
       userGuessArray: userGuessArray,
-      albumArrayIsLoaded: false,
-      gameIsStarted: false,
+      areAlbumsLoaded: false,
+      isGameStarted: false,
       playAgainButton: true,
     });
 
-    await this.scrapeRollingStone('500AllTime');
-  }
+    await this.scrapeRollingStone();
+  };
 
   render() {
-    const directions = this.state.showDirections ? <GameInfo /> : null;
-    const results = this.state.gameIsEnded ? <ResultsDisplay mainState={this.state} /> : null;
-    const loadingText = !this.state.albumArrayIsLoaded ? <h4>Loading...</h4> : null;
-    const startButton = <Button size='lg' style={{backgroundColor:'var(--color-dark-green)', margin:'1rem'}} onClick={this.handleButtonStart}>{this.state.playAgainButton ? 'Play Again' : 'Start Game'}</Button>;
-    
+    const { albumArray, showDirections, isGameStarted, isGameEnded, areAlbumsLoaded, playAgainButton } = this.state;
+    const directions = showDirections ? <GameInfo /> : null;
+    const results = isGameEnded ? <ResultsDisplay mainState={this.state} /> : null;
+    const loadingText = !areAlbumsLoaded ? <h4>Loading...</h4> : null;
+    const startButton = (
+      <Button
+        size='lg'
+        style={{ backgroundColor: 'var(--color-dark-green)', margin: '1rem' }}
+        onClick={this.handleButtonStart}
+      >
+        {playAgainButton ? 'Play Again' : 'Start Game'}
+      </Button>
+    );
+
     return (
       <StyledJumbotron>
         {directions}
         {results}
-        <div style={{textAlign:'center'}}>
-          {(this.state.albumArrayIsLoaded && !this.state.gameIsStarted) ? startButton : loadingText}
-          {this.state.gameIsStarted ? <GameComponent albumArray={this.state.albumArray} endGame={this.endGame} /> : null}
+        <div style={{ textAlign: 'center' }}>
+          {areAlbumsLoaded && !isGameStarted ? startButton : loadingText}
+          {isGameStarted ? (
+            <GameComponent
+              albumArray={albumArray}
+              handleEndGame={this.handleEndGame}
+            />
+          ) : null}
         </div>
       </StyledJumbotron>
     );
