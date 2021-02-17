@@ -23,15 +23,11 @@ class App extends React.Component {
         <Background>
           <NavBar headerText='Guess the Album' toLink='/'/>
           <Container>
-            <StyledJumbotron>
-              This app is currently under maintenance, due to the data source (rollingstone.com) changing from static to dynamic content. Please check back in soon!
-            </StyledJumbotron>
-
-            {/* <Switch>
+            <Switch>
               <Route exact path="/" component={Main} />
 
               <Route component={NotFound} />
-            </Switch> */}
+            </Switch>
           </Container>
         </Background>
       </Router>
